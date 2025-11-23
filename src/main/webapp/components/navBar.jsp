@@ -1,3 +1,5 @@
+<%@ page import="model.ServiceCategory" %>
+<%@ page import="service.ServiceCategoryManager" %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
@@ -19,7 +21,13 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="./serviceCategories.jsp">All services</a></li>
             <li><hr class="dropdown-divider"></li>
-			<li><a class="dropdown-item" href="./serviceCategories.jsp?name=placeholder">Placeholder service</a></li>
+            <%
+            	for(ServiceCategory serviceCategory : ServiceCategoryManager.getAllServiceCategories()) {
+            		String name = serviceCategory.getName();
+            		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategoryDetails.jsp?name=" 
+	           	            + name + "\">" + name + "</a></li>\n");
+            	}
+            %>
           </ul>
         </li>
         <li class="nav-item">
