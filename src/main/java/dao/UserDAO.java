@@ -58,7 +58,7 @@ public class UserDAO {
 		String code = "";
 		try {
 			Connection conn = Db.getConnection();
-			PreparedStatement stmt = conn.prepareStatement("SELECT email, password FROM user "
+			PreparedStatement stmt = conn.prepareStatement("SELECT display_name, email, password FROM user "
 					+ "WHERE username = ? "
 					+ "LIMIT 1");
 			stmt.setString(1, user.getUsername());
@@ -76,11 +76,12 @@ public class UserDAO {
 			if(isCorrectPassword) {
 				success = true;
 				code = "LOGIN_SUCCESS";
+				message = rs.getString("display_name");
 			} else {
 				success = false;
 				code = "LOGIN_INCORRECT_PASSWORD";
 			}
-			
+			conn.close();
 		} catch (SQLException e) {
 	        System.out.println("SQL Error Code: " + e.getErrorCode());
 	        System.out.println("SQL State: " + e.getSQLState());

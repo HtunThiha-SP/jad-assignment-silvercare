@@ -50,6 +50,7 @@ public class UserManager {
         OperationResponse sqlResponse = UserDAO.verifyUser(user);
         if(sqlResponse.getCode().equals("LOGIN_SUCCESS")) {
         	response.setSuccess(true);
+        	response.setMessage(sqlResponse.getMessage());
         } else {
         	response.setSuccess(false);
         	if(sqlResponse.getCode().equals("LOGIN_INCORRECT_PASSWORD")) {
