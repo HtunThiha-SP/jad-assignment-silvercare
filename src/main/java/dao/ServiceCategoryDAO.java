@@ -13,12 +13,13 @@ public class ServiceCategoryDAO {
 		try {
 			Connection conn = Db.getConnection();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT name, description FROM service_category");
+			ResultSet rs = stmt.executeQuery("SELECT name, description, img_index FROM service_category");
 			
 			while(rs.next()) {
 				String name = rs.getString("name");
 				String description = rs.getString("description");
-				serviceCategoriesList.add(new ServiceCategory(name, description));
+				int imgIndex = rs.getInt("img_index");
+				serviceCategoriesList.add(new ServiceCategory(name, description, imgIndex));
 			}
 			conn.close();
 		} catch (SQLException e) {
