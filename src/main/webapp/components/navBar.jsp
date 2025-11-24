@@ -2,7 +2,7 @@
 <%@ page import="service.ServiceCategoryManager" %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="./index.jsp">
         <img src="../img/silvercare-logo.png" width="33px" height="33px">
         SilverCare
     </a>
@@ -15,16 +15,16 @@
           <a class="nav-link active" aria-current="page" href="./index.jsp">Home</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="./serviceCategory.jsp" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Services
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="./serviceCategories.jsp">All services</a></li>
+            <li><a class="dropdown-item" href="./serviceCategories.jsp">All service categories</a></li>
             <li><hr class="dropdown-divider"></li>
             <%
             	for(ServiceCategory serviceCategory : ServiceCategoryManager.getAllServiceCategories()) {
             		String name = serviceCategory.getName();
-            		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategoryDetails.jsp?name=" 
+            		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategory.jsp?name=" 
 	           	            + name + "\">" + name + "</a></li>\n");
             	}
             %>

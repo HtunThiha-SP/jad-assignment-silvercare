@@ -33,6 +33,7 @@ public class UserDAO {
 	        	success = false;
 	        	code = "REGISTER_UNKNOWN_ERROR";
 	        }
+	        conn.close();
 	    } catch (SQLException e) {
 	    	success = false;
 	        if (e.getErrorCode() == 1062) {
