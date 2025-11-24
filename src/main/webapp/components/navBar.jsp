@@ -1,11 +1,11 @@
 <%@ page import="model.ServiceCategory" %>
 <%@ page import="service.ServiceCategoryManager" %>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="./index.jsp">
-        <img src="../img/silvercare-logo.png" width="33px" height="33px">
-        SilverCare
-    </a>
+  <div class="container-fluid mx-5">
+	<a class="navbar-brand d-flex align-items-center" href="./index.jsp">
+	    <img src="../img/silvercare-logo.png" width="33px" height="33px" class="me-3">
+	    SilverCare
+	</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
