@@ -25,6 +25,7 @@ public class UserManager {
         OperationResponse sqlResponse = UserDAO.insertNewUser(user);
         if(sqlResponse.getCode().equals("REGISTER_SUCCESS")) {
         	response.setSuccess(true);
+        	response.setMessage(user.getDisplayName());
         } else {
         	response.setSuccess(false);
         	if(sqlResponse.getCode().equals("REGISTER_DUPLICATE_USERNAME")) {

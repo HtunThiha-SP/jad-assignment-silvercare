@@ -41,6 +41,7 @@ public class CreateAccountServlet extends HttpServlet {
 
 		Boolean registerCompleteStatus = operationResponse.getSuccess();
 		session.setAttribute("registerSuccess", registerCompleteStatus);
+		session.setAttribute("displayName", operationResponse.getMessage());
 		
 		
 		if(registerCompleteStatus) {
