@@ -37,6 +37,18 @@
           <a class="nav-link active" aria-current="page" href="./newsUpdates.jsp">News & Updates</a>
         </li>
       </ul>
+      <div class="d-flex">
+      	<%
+      		String sessionDisplayName = (String) session.getAttribute("displayName");
+      		if(sessionDisplayName == null) {
+        		out.print("<a href=\"./login.jsp\" class=\"btn btn-outline-success me-2\">Login</a>\n");
+        		out.print("<a href=\"./register.jsp\" class=\"btn btn-primary\">Register</a>");
+      		} else {
+      			out.print("<a href=\"./profile.jsp\" class=\"btn btn-outline-dark me-2\"><i class=\"bi bi-person-circle\"></i>&ensp;" + sessionDisplayName + "</a>\n");
+        		out.print("<a href=\"./cart.jsp\" class=\"btn btn-primary\"><i class=\"bi bi-cart-check-fill\"></i>&ensp;Cart</a>");
+      		}
+      	%>
+  	  </div>
     </div>
   </div>
 </nav>

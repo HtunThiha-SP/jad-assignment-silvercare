@@ -25,6 +25,7 @@ public class UserManager {
         OperationResponse sqlResponse = UserDAO.insertNewUser(user);
         if(sqlResponse.getCode().equals("REGISTER_SUCCESS")) {
         	response.setSuccess(true);
+        	response.setMessage(user.getDisplayName());
         } else {
         	response.setSuccess(false);
         	if(sqlResponse.getCode().equals("REGISTER_DUPLICATE_USERNAME")) {
@@ -50,6 +51,7 @@ public class UserManager {
         OperationResponse sqlResponse = UserDAO.verifyUser(user);
         if(sqlResponse.getCode().equals("LOGIN_SUCCESS")) {
         	response.setSuccess(true);
+        	response.setMessage(sqlResponse.getMessage());
         } else {
         	response.setSuccess(false);
         	if(sqlResponse.getCode().equals("LOGIN_INCORRECT_PASSWORD")) {

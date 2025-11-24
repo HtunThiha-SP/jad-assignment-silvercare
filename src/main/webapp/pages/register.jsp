@@ -48,7 +48,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="displayName" class="form-label"><i class="bi bi-person-badge"></i>&ensp;Display name (optional)</label>
-                            <input type="text" class="form-control" id="displayName" name="displayName" placeholder="Enter display name" required>
+                            <input type="text" class="form-control" id="displayName" name="displayName" placeholder="Enter display name">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label"><i class="bi bi-envelope-at-fill"></i>&ensp;Email</label>

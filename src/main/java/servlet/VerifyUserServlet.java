@@ -43,6 +43,7 @@ public class VerifyUserServlet extends HttpServlet {
 		
 		if(registerCompleteStatus) {
 			session.setAttribute("username", username);
+			session.setAttribute("displayName", operationResponse.getMessage());
 		} else {
 			session.setAttribute("errorMessage", operationResponse.getMessage());
 		}
