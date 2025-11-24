@@ -15,8 +15,13 @@ public class UserManager {
         }
         if (user.getPassword() == null || user.getPassword().isEmpty()) {
             response.setSuccess(false);
-            response.setMessage("Please enter password");
+            response.setMessage("Please enter password.");
             return response;
+        }
+        
+        if(!user.getUsername().matches("^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$") || user.getUsername().length() < 8 || user.getUsername().length() > 32) {
+        	response.setSuccess(false);
+        	response.setMessage("Invalid username format, please try again.");
         }
 
         String hash = PasswordUtil.hashPassword(user.getPassword());
