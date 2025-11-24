@@ -37,4 +37,29 @@ public class UserManager {
         }
         return response;
     }
+    
+    public static OperationResponse loginUser(User user) {
+    	var response = new OperationResponse();
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            response.setSuccess(false);
+            response.setMessage("Please enter password");
+            return response;
+        }
+
+        OperationResponse sqlResponse = UserDAO.verifyUser(user);
+        if(sqlResponse.getCode().equals("LOGIN_SUCCESS")) {
+        	response.setSuccess(true);
+        } else {
+        	response.setSuccess(false);
+        	if(sqlResponse.getCode().equals("LOGIN_INCORRECT_PASSWORD")) {
+        		response.setMessage("Incorrect password. Please try again.");
+        	} else if (sqlResponse.getCode().equals("LOGIN_USER_NOT_FOUND")) {
+        		response.setMessage("User not found. Please try again.");
+        	} else {
+        		response.setMessage("Unknown error occurred. Please try again.");
+        	}
+        }
+        return response;
+    }
 }

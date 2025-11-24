@@ -51,4 +51,41 @@ public class UserDAO {
 	    }
 	    return new OperationResponse(success, message, code);
 	}
+	
+	public static OperationResponse verifyUser(User user) {
+		boolean success = false;
+		String message = "";
+		String code = "";
+		try {
+			Connection conn = Db.getConnection();
+			PreparedStatement stmt = conn.prepareStatement("SELECT email, password FROM user "
+					+ "WHERE username = ? "
+					+ "LIMIT 1");
+			stmt.setString(1, user.getUsername());
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(!rs.next()) {
+				success = false;
+				code = "LOGIN_USER_NOT_FOUND";
+			}
+			
+			String hashedPassword = rs.getString("password");
+			boolean isCorrectPassword = PasswordUtil.verifyPassword(user.getPassword(), hashedPassword);
+			
+			if(isCorrectPassword) {
+				success = true;
+				code = "LOGIN_SUCCESS";
+			} else {
+				success = false;
+				code = "LOGIN_INCORRECT_PASSWORD";
+			}
+			
+		} catch (SQLException e) {
+	        System.out.println("SQL Error Code: " + e.getErrorCode());
+	        System.out.println("SQL State: " + e.getSQLState());
+	        System.out.println("SQL Message: " + e.getMessage());
+		}
+		return new OperationResponse(success, message, code);
+	}
 }
