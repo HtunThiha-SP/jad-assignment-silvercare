@@ -5,6 +5,7 @@ import java.util.*;
 import dao.UserDao;
 import dto.UserLoginDto;
 import dto.UserRegisterDto;
+import dto.UserUpdateDto;
 import util.OperationResponse;
 import util.PasswordUtil;
 
@@ -87,5 +88,9 @@ public class UserManager {
 		}
 		
 		return new OperationResponse(success, message, code, loginSqlResponse.getResponseData());
+	}
+	
+	public static UserUpdateDto getUserProfileInfo(Integer userId) {
+		return UserDao.selectUserById(userId);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.*;
 
 import dto.UserLoginDto;
 import dto.UserRegisterDto;
+import dto.UserUpdateDto;
 import util.Db;
 import util.OperationResponse;
 import util.PasswordUtil;
@@ -105,12 +106,40 @@ public class UserDao {
 			success = false;
 			code = "LOGIN_UNKNOWN_ERROR";
 	        
-	        System.out.println("SQLException at UserDao.insertNewUser");
+	        System.out.println("SQLException at UserDao.verifyUserLogin");
 	        System.out.println("SQL Error Code: " + e.getErrorCode());
 	        System.out.println("SQL State: " + e.getSQLState());
 	        System.out.println("SQL Message: " + e.getMessage());
 		}
 		
 		return new OperationResponse(success, message, code, responseData);
+	}
+	
+	public static UserUpdateDto selectUserById(Integer userId) {
+		String username = "";
+		String email = "";
+		String displayName = "";
+		try {
+			Connection conn = Db.getConnection();
+			String sqlStatement = "SELECT username, email, display_name FROM user "
+					+ "WHERE id = ? LIMIT 1";
+			PreparedStatement stmt = conn.prepareStatement(sqlStatement);
+			stmt.setInt(1, userId);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				username = rs.getString("username");
+				email = rs.getString("email");
+				displayName = rs.getString("display_name");
+			}
+		} catch(SQLException e) {
+	        System.out.println("SQLException at UserDao.selectUserById");
+	        System.out.println("SQL Error Code: " + e.getErrorCode());
+	        System.out.println("SQL State: " + e.getSQLState());
+	        System.out.println("SQL Message: " + e.getMessage());
+		}
+		
+		return new UserUpdateDto(username, email, displayName);
 	}
 }
