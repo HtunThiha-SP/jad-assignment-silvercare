@@ -90,4 +90,79 @@ public class UserDAO {
 		}
 		return new OperationResponse(success, message, code);
 	}
+	
+	public static User selectUserByUsername(String username) {
+		String usernameRes = "";
+		String displayName = "";
+		String email = "";
+		try {
+			Connection conn = Db.getConnection();
+			PreparedStatement stmt = conn.prepareStatement("SELECT username, display_name, email FROM user "
+					+ "WHERE username = ? "
+					+ "LIMIT 1");
+			stmt.setString(1, username);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+			usernameRes = rs.getString(1);
+			displayName = rs.getString(2);
+			email = rs.getString(3);
+			}
+			
+			conn.close();
+		} catch (SQLException e) {
+	        System.out.println("SQL Error Code: " + e.getErrorCode());
+	        System.out.println("SQL State: " + e.getSQLState());
+	        System.out.println("SQL Message: " + e.getMessage());
+		}
+		return new User(usernameRes, email, displayName);
+	}
+	
+	public static OperationResponse updateUser(User user, String oldUsername) {
+		boolean success = false;
+		String message = "";
+		String code = "";
+	    try {
+	        Connection conn = Db.getConnection();
+	        PreparedStatement stmt = conn.prepareStatement(
+	                "UPDATE user "
+	                + "SET username = ?, display_name = ?, email = ?"
+	                + "WHERE username = ?"
+	        );
+
+	        stmt.setString(1, user.getUsername());
+	        stmt.setString(2, user.getDisplayName());
+	        stmt.setString(3, user.getEmail());
+	        stmt.setString(4, oldUsername);
+
+	        int rowsAffected = stmt.executeUpdate();
+	        conn.close();
+	        
+	        if(rowsAffected == 1) {
+	        	success = true;
+	        	code = "UPDATE_SUCCESS";
+	        } else {
+	        	success = false;
+	        	code = "UPDATE_UNKNOWN_ERROR";
+	        }
+	        conn.close();
+	    } catch (SQLException e) {
+	    	success = false;
+	        if (e.getErrorCode() == 1062) {
+	            if (e.getMessage().contains("username")) {
+	                code = "UPDATE_DUPLICATE_USERNAME";
+	            } else if (e.getMessage().contains("email")) {
+	                code = "UPDATE_DUPLICATE_EMAIL";
+	            } else {
+	            	code = "UPDATE_UNKNOWN_ERROR";
+	            }
+	        }
+
+	        System.out.println("SQL Error Code: " + e.getErrorCode());
+	        System.out.println("SQL State: " + e.getSQLState());
+	        System.out.println("SQL Message: " + e.getMessage());
+	    }
+	    return new OperationResponse(success, message, code);
+	}
 }

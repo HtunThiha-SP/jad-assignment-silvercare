@@ -69,4 +69,37 @@ public class UserManager {
         }
         return response;
     }
+    
+    public static User getUserProfileInfo(String username) {
+    	User userRes = UserDAO.selectUserByUsername(username);
+    	return userRes;
+    }
+    
+    public static OperationResponse updateUserProfileInfo(User user, String oldUsername) {
+    	var response = new OperationResponse();
+        if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
+            user.setDisplayName(user.getUsername());
+        }
+        
+        if(!user.getUsername().matches("^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$") || user.getUsername().length() < 8 || user.getUsername().length() > 32) {
+        	response.setSuccess(false);
+        	response.setMessage("Invalid username format, please try again.");
+        }
+
+        OperationResponse sqlResponse = UserDAO.updateUser(user, oldUsername);
+        if(sqlResponse.getCode().equals("UPDATE_SUCCESS")) {
+        	response.setSuccess(true);
+        	response.setMessage(user.getDisplayName());
+        } else {
+        	response.setSuccess(false);
+        	if(sqlResponse.getCode().equals("UPDATE_DUPLICATE_USERNAME")) {
+        		response.setMessage("Username already exists. Please try again.");
+        	} else if (sqlResponse.getCode().equals("UPDATE_DUPLICATE_EMAIL")) {
+        		response.setMessage("Email already exists. Please try again.");
+        	} else {
+        		response.setMessage("Unknown error occurred. Please try again.");
+        	}
+        }
+        return response;
+    }
 }
