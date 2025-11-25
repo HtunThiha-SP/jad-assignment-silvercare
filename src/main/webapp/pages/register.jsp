@@ -20,11 +20,12 @@
 		String registerStatus = "";
 		String toastVisibility = "d-none";
 		if (registerSuccess != null) {
+			String message = (String) session.getAttribute("message");
 			toastVisibility = "d-block";
 			if (registerSuccess) {
 				registerStatus = "Registration Successful";
 				notificationColor = "#077307";
-				notificationMessage = "<i class=\"bi bi-arrow-up-right-square-fill\"></i>&ensp;Redirecting to homepage...";
+				notificationMessage = "<i class=\"bi bi-arrow-up-right-square-fill\"></i>&ensp;" + message;
 				out.print("<script>");
 				out.print("setTimeout(function() {");
 				out.print("window.location.href = '" + request.getContextPath() + "/pages/index.jsp';");
@@ -33,8 +34,7 @@
 			} else {
 				notificationColor = "#FF0000";
 				registerStatus = "Registration Failed";
-				String errorMessage = (String) session.getAttribute("errorMessage");
-				notificationMessage = "<i class=\"bi bi-exclamation-triangle-fill\"></i>&ensp;" + errorMessage;
+				notificationMessage = "<i class=\"bi bi-exclamation-triangle-fill\"></i>&ensp;" + message;
 			}
 			session.removeAttribute("registerSuccess");
 		}

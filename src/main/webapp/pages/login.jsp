@@ -21,11 +21,12 @@
 		String notificationMessage = "";
 		String loginStatus = "";
 		if(loginSuccess != null) {
+			String message = (String) session.getAttribute("message");
 			toastVisibility = "d-block";
 			if(loginSuccess) {
 				notificationColor = "#077307";
 				loginStatus = "Login Successful";
-				notificationMessage = "<i class=\"bi bi-arrow-up-right-square-fill\"></i>&ensp;Redirecting to homepage...";
+				notificationMessage = "<i class=\"bi bi-arrow-up-right-square-fill\"></i>&ensp;" + message;
 
 				out.print("<script>");
 				out.print("setTimeout(function() {");
@@ -35,8 +36,7 @@
 			} else {
 				notificationColor = "#FF0000";
 				loginStatus = "Login Failed";
-				String errorMessage = (String) session.getAttribute("errorMessage");
-				notificationMessage = "<i class=\"bi bi-exclamation-triangle-fill\"></i>&ensp;" + errorMessage;
+				notificationMessage = "<i class=\"bi bi-exclamation-triangle-fill\"></i>&ensp;" + message;
 			}
 			session.removeAttribute("loginSuccess");
 		}
