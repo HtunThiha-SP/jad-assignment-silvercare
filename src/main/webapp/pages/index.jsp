@@ -18,7 +18,7 @@
                 <div>
                     <h2><i class="bi bi-rocket-takeoff-fill"></i>&ensp;What We Do</h2>
                     <p>
-                        SilverCare provices compassinoate and professional in-home assistance, offering a range
+                        SilverCare provides compassionate and professional in-home assistance, offering a range
                         of personalized caregiver services tailored to the unique need of seniors and individuals
                         requiring support to maintain their independence and quality of life. Our dedicated team is
                         committed to delivering exceptional care, focusing on everything from daily living activities
