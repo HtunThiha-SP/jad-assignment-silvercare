@@ -15,19 +15,24 @@
 	</style>
 	<%
 		Boolean registerSuccess = (Boolean) session.getAttribute("registerSuccess");
-		String notificationBgColor = "#1D3142";
+		String notificationColor = "#1D3142";
 		String notificationMessage = "";
+		String registerStatus = "";
+		String toastVisibility = "d-none";
 		if (registerSuccess != null) {
+			toastVisibility = "d-block";
 			if (registerSuccess) {
-				notificationBgColor = "green";
-				notificationMessage = "<i class=\"bi bi-arrow-up-right-square-fill\"></i>&ensp;Registration successful. Redirecting...";
+				registerStatus = "Registration Successful";
+				notificationColor = "#077307";
+				notificationMessage = "<i class=\"bi bi-arrow-up-right-square-fill\"></i>&ensp;Redirecting to homepage...";
 				out.print("<script>");
 				out.print("setTimeout(function() {");
 				out.print("window.location.href = '" + request.getContextPath() + "/pages/index.jsp';");
 				out.print("}, 1500);");
 				out.print("</script>");
 			} else {
-				notificationBgColor = "red";
+				notificationColor = "#FF0000";
+				registerStatus = "Registration Failed";
 				String errorMessage = (String) session.getAttribute("errorMessage");
 				notificationMessage = "<i class=\"bi bi-exclamation-triangle-fill\"></i>&ensp;" + errorMessage;
 			}
@@ -92,24 +97,20 @@
             </div>
         </div>
     </div>
-
-    <div style="
-            position: fixed;
-            bottom: 10px;
-            padding-right: 15px;
-            display: flex;
-            justify-content: right;
-            align-items: center;
-            width: 100%;
-    ">
-        <p style="
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            background-color: <%= notificationBgColor %>;
-            color: white;
-            font-size: 18px;
-        ">&ensp;&ensp;<%= notificationMessage %>&ensp;&ensp;</p>
-    </div>
+	<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+	    <div class="toast fade show <%= toastVisibility %>" role="alert" aria-live="assertive" aria-atomic="true">
+	        <div class="toast-header">
+	            <svg aria-hidden="true" class="bd-placeholder-img rounded me-2" height="20" preserveAspectRatio="xMidYMid slice" width="20" xmlns="http://www.w3.org/2000/svg">
+	                <rect width="100%" height="100%" fill="<%= notificationColor %>"></rect>
+	            </svg>
+	            <strong class="me-auto" style="color: <%= notificationColor %>"><%= registerStatus %></strong>
+	            <small class="text-body-secondary">Just now</small>
+	            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+	        </div>
+	        <div class="toast-body">
+	            <%= notificationMessage %>
+	        </div>
+	    </div>
+	</div>
 </body>
 </html>
