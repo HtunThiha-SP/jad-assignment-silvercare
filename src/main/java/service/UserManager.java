@@ -1,67 +1,96 @@
 package service;
 
-import dao.UserDAO;
-import model.User;
+import java.util.*;
+
+import dao.UserDao;
+import dto.UserLoginDto;
+import dto.UserRegisterDto;
+import dto.UserUpdateDto;
 import util.OperationResponse;
 import util.PasswordUtil;
 
-import java.util.*;
-
 public class UserManager {
-    public static OperationResponse registerUser(User user) {
-    	var response = new OperationResponse();
-        if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
-            user.setDisplayName(user.getUsername());
+	public static OperationResponse register(String username, String email, String displayName, String password) {
+		boolean success = false;
+		String message = "";
+		String code = "";
+		Integer newUserId = null;
+		
+        if (displayName == null || displayName.isEmpty()) {
+            displayName = username;
         }
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            response.setSuccess(false);
-            response.setMessage("Please enter password");
-            return response;
+        if (password == null || password.isEmpty()) {
+        	success = false;
+        	message = "Empty or invalid password. Please try again.";
         }
-
-        String hash = PasswordUtil.hashPassword(user.getPassword());
-        user.setPassword(hash);
-
-        OperationResponse sqlResponse = UserDAO.insertNewUser(user);
-        if(sqlResponse.getCode().equals("REGISTER_SUCCESS")) {
-        	response.setSuccess(true);
-        	response.setMessage(user.getDisplayName());
-        } else {
-        	response.setSuccess(false);
-        	if(sqlResponse.getCode().equals("REGISTER_DUPLICATE_USERNAME")) {
-        		response.setMessage("Username already exists. Please try again.");
-        	} else if (sqlResponse.getCode().equals("REGISTER_DUPLICATE_EMAIL")) {
-        		response.setMessage("Email already exists. Please try again.");
-        	} else {
-        		response.setMessage("Unknown error occurred. Please try again.");
-        	}
-        }
-        return response;
-    }
-    
-    public static OperationResponse loginUser(User user) {
-    	var response = new OperationResponse();
-
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            response.setSuccess(false);
-            response.setMessage("Please enter password");
-            return response;
+        
+        if(!username.matches("^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$") || username.length() < 8 || username.length() > 32) {
+        	success = false;
+        	message = "Invalid username format, please try again.";
         }
 
-        OperationResponse sqlResponse = UserDAO.verifyUser(user);
-        if(sqlResponse.getCode().equals("LOGIN_SUCCESS")) {
-        	response.setSuccess(true);
-        	response.setMessage(sqlResponse.getMessage());
-        } else {
-        	response.setSuccess(false);
-        	if(sqlResponse.getCode().equals("LOGIN_INCORRECT_PASSWORD")) {
-        		response.setMessage("Incorrect password. Please try again.");
-        	} else if (sqlResponse.getCode().equals("LOGIN_USER_NOT_FOUND")) {
-        		response.setMessage("User not found. Please try again.");
-        	} else {
-        		response.setMessage("Unknown error occurred. Please try again.");
-        	}
+        String hash = PasswordUtil.hashPassword(password);
+		var userRegisterData = new UserRegisterDto(username, email, displayName, hash);
+		
+		OperationResponse registerSqlResponse = UserDao.insertNewUser(userRegisterData);
+		code = registerSqlResponse.getCode();
+		
+		if(registerSqlResponse.isSuccess()) {
+			success = true;
+			message = "Redirecting to homepage...";
+			newUserId = (Integer) registerSqlResponse.getResponseData();
+		} else {
+			success = false;
+			if(registerSqlResponse.getCode().equals("REGISTER_DUPLICATE_USERNAME")) {
+				message = "Username already exists. Please try again.";
+			} else if (registerSqlResponse.getCode().equals("REGISTER_DUPLICATE_EMAIL")) {
+				message = "Email already exists. Please try again.";
+			} else {
+				message = "Unknown error occurred. Please try again.";
+			}
+		}
+		
+		return new OperationResponse(success, message, code, newUserId);
+	}
+	
+	public static OperationResponse loginUser(String username, String password) {
+		boolean success = false;
+		String message = "";
+		String code = "";
+
+        if (password == null || password.isEmpty()) {
+        	success = false;
+        	message = "Empty or invalid password. Please try again.";
         }
-        return response;
-    }
+        
+        if(!username.matches("^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$") || username.length() < 8 || username.length() > 32) {
+        	success = false;
+        	message = "Invalid username format, please try again.";
+        }
+
+		var userLoginData = new UserLoginDto(username, password);
+		
+		OperationResponse loginSqlResponse = UserDao.verifyUserLogin(userLoginData);
+		code = loginSqlResponse.getCode();
+		
+		if(loginSqlResponse.isSuccess()) {
+			success = true;
+			message = "Redirecting to homepage...";
+		} else {
+			success = false;
+			if(loginSqlResponse.getCode().equals("LOGIN_USERNAME_NOT_FOUND")) {
+				message = "Username not found. Please try again.";
+			} else if (loginSqlResponse.getCode().equals("LOGIN_INCORRECT_PASSWORD")) {
+				message = "Incorrect password. Please try again.";
+			} else {
+				message = "Unknown error occurred. Please try again.";
+			}
+		}
+		
+		return new OperationResponse(success, message, code, loginSqlResponse.getResponseData());
+	}
+	
+	public static UserUpdateDto getUserProfileInfo(Integer userId) {
+		return UserDao.selectUserById(userId);
+	}
 }

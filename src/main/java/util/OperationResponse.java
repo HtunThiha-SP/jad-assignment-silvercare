@@ -1,28 +1,30 @@
 package util;
 
 public class OperationResponse {
-	private Boolean success;
+	private boolean success;
 	private String message;
 	private String code;
-	
-	public OperationResponse() {}
+	private Object responseData;
 
-	public OperationResponse(Boolean success, String message) {
-		this.success = success;
-		this.message = message;
-	}
-	
-	public OperationResponse(Boolean success, String message, String code) {
+	public OperationResponse(boolean success, String message, String code, Object responseData) {
 		this.success = success;
 		this.message = message;
 		this.code = code;
+		this.responseData = responseData;
 	}
 
-	public Boolean getSuccess() {
+	public OperationResponse(boolean success, String message, String code) {
+		this.success = success;
+		this.message = message;
+		this.code = code;
+		this.responseData = null;
+	}
+
+	public boolean isSuccess() {
 		return success;
 	}
 
-	public void setSuccess(Boolean success) {
+	public void setSuccess(boolean success) {
 		this.success = success;
 	}
 
@@ -40,5 +42,13 @@ public class OperationResponse {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public Object getResponseData() {
+		return responseData;
+	}
+
+	public void setResponseData(Object responseData) {
+		this.responseData = responseData;
 	}
 }

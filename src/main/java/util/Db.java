@@ -18,7 +18,7 @@ public class Db {
         try (InputStream input = Db.class.getClassLoader().getResourceAsStream("config.properties")) {
 
             if (input == null) {
-                System.out.println("Unable to find config.properties");
+                System.out.println("Error loading DB config: Unable to find config.properties.");
                 return;
             }
 
@@ -40,7 +40,6 @@ public class Db {
         try {
             Class.forName(driver);
             conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Database connection successful: " + url);
         } catch (Exception e) {
             System.out.println("Error connecting DB: " + e.getMessage());
         }

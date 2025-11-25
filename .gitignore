@@ -11,3 +11,4 @@ build/
 # env variables and properties
 .env
 *.properties
+**/pages/*.html

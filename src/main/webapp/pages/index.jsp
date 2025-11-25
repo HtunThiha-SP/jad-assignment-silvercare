@@ -9,6 +9,7 @@
 </head>
 <body>
     <jsp:include page="../components/navBar.jsp"></jsp:include>
+    <img src="../img/homepage-banner.png" width="100%" height="auto">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-3 d-flex justify-content-center align-items-center">

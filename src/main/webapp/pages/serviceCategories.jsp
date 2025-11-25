@@ -1,4 +1,4 @@
-<%@ page import="model.ServiceCategory" %>
+<%@ page import="dto.ServiceCategoryDto" %>
 <%@ page import="service.ServiceCategoryManager" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -24,11 +24,11 @@
             <div class="col-12 col-sm-10">
                 <div class="row gx-5 gy-4 justify-content-center">
 				<%
-					for(ServiceCategory serviceCategory : ServiceCategoryManager.getAllServiceCategories()) {
-					    String name = serviceCategory.getName();
-					    String description = serviceCategory.getDescription();
-					    String imgUrl = "../img/service-category" + serviceCategory.getImgIndex() + "-banner.png";
-					    String redirectUrl = "./serviceCategoryDetails.jsp?name=" + serviceCategory.getName();
+					for(ServiceCategoryDto serviceCategory : ServiceCategoryManager.getAllServiceCategories()) {
+					    String name = serviceCategory.name();
+					    String description = serviceCategory.description();
+					    String imgUrl = "../img/service-category" + serviceCategory.imgIndex() + "-banner.png";
+					    String redirectUrl = "./serviceCategoryDetails.jsp?name=" + serviceCategory.name();
 					
 					    out.print(
 					        "<div class='col-sm-10 col-md-6 col-xl-4'>"

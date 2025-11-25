@@ -36,8 +36,8 @@ public class PasswordUtil {
 
     private static byte[] hash(String password, byte[] salt) {
     	try {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(salt);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
         return md.digest(password.getBytes());
     	} catch (NoSuchAlgorithmException e) {
     		System.out.print("Error on password hashing: " + e.getMessage());

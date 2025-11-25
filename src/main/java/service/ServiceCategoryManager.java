@@ -1,12 +1,12 @@
 package service;
 
-import model.ServiceCategory;
-import dao.ServiceCategoryDAO;
+import java.util.List;
 
-import java.util.*;
+import dao.ServiceCategoryDao;
+import dto.ServiceCategoryDto;
 
 public class ServiceCategoryManager {
-	public static List<ServiceCategory> getAllServiceCategories() {
-		return ServiceCategoryDAO.selectAllServiceCategories();
+	public static List<ServiceCategoryDto> getAllServiceCategories() {
+		return ServiceCategoryDao.selectAllServiceCategories();
 	}
 }
