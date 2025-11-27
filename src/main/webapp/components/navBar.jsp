@@ -10,6 +10,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    
+    
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="./index.jsp">Home</a>
@@ -36,6 +38,12 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="./newsUpdates.jsp">News & Updates</a>
         </li>
+        <li class="nav-item">
+  <a class="nav-link active" aria-current="page" href="./inbox.jsp">
+    <i class="bi bi-bell"></i>&ensp;Inbox
+  </a>
+</li>
+        
       </ul>
       <div class="d-flex">
       	<%

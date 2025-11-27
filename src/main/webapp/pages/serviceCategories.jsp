@@ -29,7 +29,8 @@
 					    String description = serviceCategory.description();
 					    String imgUrl = "../img/service-category" + serviceCategory.imgIndex() + "-banner.png";
 					    String redirectUrl = "./serviceCategoryDetails.jsp?name=" + serviceCategory.name();
-					
+					    String reviewUrl   = "./serviceReviews.jsp?name=" + serviceCategory.name(); // NEW
+
 					    out.print(
 					        "<div class='col-sm-10 col-md-6 col-xl-4'>"
 					        + "<div class='card' style='"
@@ -44,11 +45,16 @@
 					            + "<div class='card-body'>"
 					                + "<h5 class='card-title'>" + name + "</h5>"
 					                + "<p class='card-text' style='font-size: 14px;'>" + description + "</p>"
-					                + "<a href='" + redirectUrl + "' class='btn' style='background-color: #2C2C2C; color: white;'>Learn More</a>"
+					                + "<div class='d-flex justify-content-between mt-3'>"
+					                    + "<a href='" + redirectUrl + "' class='btn btn-sm' "
+					                        + "style='background-color: #2C2C2C; color: white;'>Learn More</a>"
+					                    + "<a href='" + reviewUrl + "' class='btn btn-sm btn-outline-dark'>Reviews</a>"
+					                + "</div>"
 					            + "</div>"
 					        + "</div>"
 					        + "</div>"
 					    );
+
 					}
 				%>
                 </div>
