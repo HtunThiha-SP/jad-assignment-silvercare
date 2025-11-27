@@ -133,6 +133,7 @@ public class UserDao {
 				email = rs.getString("email");
 				displayName = rs.getString("display_name");
 			}
+			conn.close();
 		} catch(SQLException e) {
 	        System.out.println("SQLException at UserDao.selectUserById");
 	        System.out.println("SQL Error Code: " + e.getErrorCode());

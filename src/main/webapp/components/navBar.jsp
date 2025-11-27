@@ -24,7 +24,7 @@
             <%
             	for(ServiceCategoryDto serviceCategory : ServiceCategoryManager.getAllServiceCategories()) {
             		String name = serviceCategory.name();
-            		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategory.jsp?name=" 
+            		out.println("<li><a class=\"dropdown-item\" href=\"./serviceCategoryDetails.jsp?name=" 
 	           	            + name + "\">" + name + "</a></li>\n");
             	}
             %>
