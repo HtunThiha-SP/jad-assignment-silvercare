@@ -24,6 +24,7 @@ public class ServiceCategoryDao {
 				
 				serviceCategoriesList.add(new ServiceCategoryDto(name, description, imgIndex));
 			}
+			conn.close();
 		} catch(SQLException e) {
 	        System.out.println("SQLException at ServiceCategoryDao.selectAllServiceCategories");
 	        System.out.println("SQL Error Code: " + e.getErrorCode());
